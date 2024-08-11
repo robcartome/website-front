@@ -3,12 +3,14 @@ import React from "react";
 import HeaderProducts from "./HeaderProducts/HeaderProducts";
 import ProductCard from "../../../../../../components/ProductCard";
 import Search from "@/components/Search";
+import SkeletonProducts from "@/components/Shared/SkeletonProducts/SkeletonProducts";
 
 export default function ListProducts(props) {
   const {products} = props;
+  // const { addLovedItem, lovedItems, removeLovedItem } = useLovedProducts();
 
   if (!products) {
-    return <p>Skeleton...</p>
+    return <SkeletonProducts />
   }
 
   return (
