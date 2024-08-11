@@ -1,6 +1,7 @@
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from 'nextjs-toploader';
+import Header from "@/components/navbar/Navbar";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
