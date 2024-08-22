@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 // Import react scroll
 import { Link as LinkScroll } from "react-scroll";
-import ButtonOutline from "../buttons/ButtonOutline";
+import ButtonOutline from "../../buttons/ButtonOutline";
 import Image from "next/image";
 import Logo from "./Logo";
 

@@ -2,7 +2,7 @@ import Image from "next/image";
 import FirstBlock from "./components/FirtsBlock/FirstBlock";
 import Hero from "./components/Hero/Hero";
 import FiltersAndListProducts from "./components/FiltersAndListProducts/FiltersAndListProducts";
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/Shared/Navbar/Navbar";
 import Footer from "@/components/Footer";
 
 export default function Home() {
