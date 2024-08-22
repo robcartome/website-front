@@ -6,11 +6,11 @@ import Search from "@/components/Search";
 import SkeletonProducts from "@/components/Shared/SkeletonProducts/SkeletonProducts";
 
 export default function ListProducts(props) {
-  const {products} = props;
+  const { products } = props;
   // const { addLovedItem, lovedItems, removeLovedItem } = useLovedProducts();
 
   if (!products) {
-    return <SkeletonProducts />
+    return <SkeletonProducts />;
   }
 
   return (
@@ -18,21 +18,28 @@ export default function ListProducts(props) {
       <Search />
       <HeaderProducts />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {
-          products.map((product) => {
-            const {id, nombre_producto, precio_producto, descripcion, ruta_imagen_principal} = product
-            // const likedProduct = lovedItems.some((item) => item.id === id) // En caso se quiera tener opcion de tener favoritos o clicks en los corazones
-            return (
-              <ProductCard
-                key={id}
-                name={nombre_producto}
-                price={precio_producto}
-                description={descripcion}
-                imgUrl={ruta_imagen_principal}
-              />
-            )
-          })
-        }
+        {products.length < 1 && (
+          <div className="flex w-full">Sin productos...</div>
+        )}
+        {products.map((product) => {
+          const {
+            id,
+            nombre_producto,
+            precio_producto,
+            descripcion,
+            ruta_imagen_principal,
+          } = product;
+          // const likedProduct = lovedItems.some((item) => item.id === id) // En caso se quiera tener opcion de tener favoritos o clicks en los corazones
+          return (
+            <ProductCard
+              key={id}
+              name={nombre_producto}
+              price={precio_producto}
+              description={descripcion}
+              imgUrl={ruta_imagen_principal}
+            />
+          );
+        })}
       </div>
     </section>
   );
