@@ -1,18 +1,20 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import HeaderProducts from "./HeaderProducts/HeaderProducts";
 import ProductCard from "../../../../../../components/ProductCard";
 import Search from "@/components/Search";
 import SkeletonProducts from "@/components/Shared/SkeletonProducts/SkeletonProducts";
+import { useLovedProducts } from "@/hooks/use-loved-products";
 
 export default function ListProducts(props) {
   const { products } = props;
-  // const { addLovedItem, lovedItems, removeLovedItem } = useLovedProducts();
+  const { addLovedItem, lovedItems, removeLovedItem } = useLovedProducts();
 
   if (!products) {
     return <SkeletonProducts />;
   }
 
+  console.log('lovedItems', lovedItems)
   return (
     <section className="w-full p-4">
       <Search />
@@ -29,7 +31,8 @@ export default function ListProducts(props) {
             descripcion,
             ruta_imagen_principal,
           } = product;
-          // const likedProduct = lovedItems.some((item) => item.id === id) // En caso se quiera tener opcion de tener favoritos o clicks en los corazones
+          const likedProduct = lovedItems.some((item) => item.id === id) // En caso se quiera tener opcion de tener favoritos o clicks en los corazones
+
           return (
             <ProductCard
               key={id}
@@ -37,6 +40,11 @@ export default function ListProducts(props) {
               price={precio_producto}
               description={descripcion}
               imgUrl={ruta_imagen_principal}
+              addLovedProduct={
+                likedProduct
+                  ? () => removeLovedItem(product.id)
+                  : () => addLovedItem(product)}
+              likedProduct={likedProduct}
             />
           );
         })}

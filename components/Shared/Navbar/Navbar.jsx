@@ -32,9 +32,8 @@ const Navbar = () => {
             <Logo />
           </div>
           <ul className="hidden lg:flex col-start-4 col-end-8 text-black-500 items-center">
-            {["inicio", "equipamientos", "instalaciones"].map(
+            {["inicio", "Equipos"].map(
               (item, key) => (
-                <>
                   <LinkScroll
                     key={key}
                     activeClass="active"
@@ -52,7 +51,6 @@ const Navbar = () => {
                   >
                     {item.charAt(0).toUpperCase() + item.slice(1)}
                   </LinkScroll>
-                </>
               )
             )}
             <div className="relative">

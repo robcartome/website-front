@@ -83,7 +83,7 @@ const DetailsPage = () => {
         </div>
         {/* Section descripción */}
         <section className="w-full p-4">
-          <h1 class="text-2xl font-bold mb-4">Descripción</h1>
+          <h1 className="text-2xl font-bold mb-4">Descripción</h1>
           <div className="text-justify">
             ¡No esperes más! Te presentamos el Aire Acondicionado Split Pared
             York 12000 BTU, una maravilla de la tecnología que transformará tu
@@ -137,7 +137,7 @@ const DetailsPage = () => {
 
         {/* Section Productos relacionados */}
         <section className="w-full p-4">
-          <h1 class="text-center text-2xl font-bold mb-4">Productos relacionados</h1>
+          <h1 className="text-center text-2xl font-bold mb-4">Productos relacionados</h1>
           <div className="grid gap-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {
             relatedProducts.map((product) => {

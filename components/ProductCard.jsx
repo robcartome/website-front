@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import React from "react";
+import { BadgeCheck } from 'lucide-react';
 import Image from "next/image";
 // import './ProductCard.css';
-// import Badge from 'react-bootstrap/Badge';
 
 // import { FaChalkboardTeacher, FaRegCalendarAlt } from 'react-icons/fa';
-// import { Link } from 'react-router-dom';
 import Link from "next/link";
 
 export default function ProductCard({
@@ -14,12 +14,15 @@ export default function ProductCard({
   price,
   description,
   imgUrl,
+  addLovedProduct,
+  likedProduct
 }) {
   // const linkToDetail = `/detail/${slug}`; // detail/aire-acondicionado-split-pared-york-12000-btu
   const linkToDetail = `details/${name}`;
   const imageLoader = ({ src, width, quality }) => {
     return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
   };
+
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg">
       <div className="flex flex-col justify-between h-full">
@@ -34,12 +37,26 @@ export default function ProductCard({
           className="w-full"
         />
         <div className="px-6 py-2">
-          <div className="font-bold text-lg mb-1">{name}</div>
+          <div className="font-bold text-lg mb-1">
+            <span>
+              {name}
+            </span>
+            <BadgeCheck
+              className={`cursor-pointer ${likedProduct ? 'fill-sky-500' : ''}`}
+              // className="cursor-pointer"
+              // color={ likedProduct ? "#0cb7f2" : "#000"}
+              color={ likedProduct ? "#ffff" : "#36c9fa"}
+              // width={ likedProduct ? 30 : 24}
+              // height={ likedProduct ? 30 : 24}
+              // strokeWidth={2}
+              onClick={() => addLovedProduct()}
+            />
+          </div>
           <ul className="list-disc text-gray-700 text-xs pl-4">
-            <li>Enfriamiento automático inteligente.</li>
-            <li>Enfriamiento rápido.</li>
-            <li>SmartThings.</li>
-            <li>Limpieza automática.</li>
+            <li>Tipo de Gas: </li>
+            <li>Consumo: </li>
+            <li>Potencia: 12000 btu</li>
+            <li>Cop: </li>
           </ul>
         </div>
         <div className="px-4 pt-2 pb-4 flex items-center justify-between">

@@ -82,7 +82,7 @@ export default function FilterProducts(props) {
       </Select> */}
 
       <Button onClick={clearSelectsFilters}>
-        Remove filters <Trash className="w-4 h-4 ml-2" />
+        Remover filtros <Trash className="w-4 h-4 ml-2" />
       </Button>
     </div>
   );
@@ -107,7 +107,7 @@ const Filter = ({ filterName, filterValues, onHandleFilter }) => {
           aria-controls="filter-section-0"
           aria-expanded="true"
         >
-          <span class="font-medium text-gray-900">{filterName}</span>
+          <span className="font-medium text-gray-900">{filterName}</span>
         </button>
       </h3>
       <div className="pt-6">
@@ -118,7 +118,7 @@ const Filter = ({ filterName, filterValues, onHandleFilter }) => {
                 onChange={onChange}
                 value={value}
                 type="checkbox"
-                class="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500"
+                className="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500"
               />
               <label className="ml-3 text-sm text-gray-600">{value}</label>
             </div>
