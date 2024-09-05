@@ -8,6 +8,8 @@ import { Link as LinkScroll } from "react-scroll";
 import ButtonOutline from "../../buttons/ButtonOutline";
 import Image from "next/image";
 import Logo from "./Logo";
+import LovedProducts from "@/app/(routes)/(home)/components/LovedProducts/LovedProducts";
+
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState(null);
@@ -83,6 +85,9 @@ const Navbar = () => {
             </div>
           </ul>
           <div className="col-start-10 col-end-12 font-medium flex justify-end items-center">
+            <div>
+              <LovedProducts />
+            </div>
             <Link
               href="/"
               className="text-gray-500 mx-2 sm:mx-4 capitalize tracking-wide hover:text-sky-500 transition-all"
