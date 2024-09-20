@@ -14,7 +14,7 @@ export default function ListProducts(props) {
     return <SkeletonProducts />;
   }
 
-  console.log('lovedItems', lovedItems)
+  console.log('lovedItems', lovedItems, products)
   return (
     <section className="w-full p-4">
       <Search />
@@ -26,7 +26,7 @@ export default function ListProducts(props) {
         {products.map((product) => {
           const {
             id,
-            nombre_producto,
+            nombre_producto_corto,
             precio_producto,
             descripcion,
             ruta_imagen_principal,
@@ -36,7 +36,7 @@ export default function ListProducts(props) {
           return (
             <ProductCard
               key={id}
-              name={nombre_producto}
+              name={nombre_producto_corto}
               price={precio_producto}
               description={descripcion}
               imgUrl={ruta_imagen_principal}

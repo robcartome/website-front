@@ -61,7 +61,7 @@ const Navbar = () => {
                 onFocusOut={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="px-4 py-2 mx-2 cursor-pointer animation-hover inline-block relative text-black-500 hover:text-sky-500 px-3 py-2 rounded"
               >
-                Soluciones
+                Servicios
               </button>
               {isDropdownOpen && (
                 <div className="absolute left-0 mt-2 w-48 bg-white text-black rounded shadow-lg">

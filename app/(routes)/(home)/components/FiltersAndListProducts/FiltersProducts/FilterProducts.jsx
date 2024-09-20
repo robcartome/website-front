@@ -1,40 +1,12 @@
-import React from "react";
-
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectLabel,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
+import React, { useState } from "react";
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function FilterProducts(props) {
-  // Esto tiene q venir del Backend, crear una estructura para guardar los filtros seleccionados
-  // OJO filtros, solo carga al inicio y no se modifica
-  // crear filters { value: []} Para guardar los filtros seleccionados. Eso lo tenemos en FiltersAndListProducts
-  const filtros = [
-    {
-      id: 1,
-      filtro: "marca",
-      valores: ["York", "miidea", "lg"],
-    },
-    {
-      id: 2,
-      filtro: "tipo",
-      valores: ["Split Pared"],
-    },
-    {
-      id: 3,
-      filtro: "capacidad",
-      valores: ["12.000 btu/h", "14.000 btu/h"],
-    },
-  ];
+  const { clearFilters, setFilters, filterOptions } = props;
+  console.log(filterOptions);
+  const [expandedFilters, setExpandedFilters] = useState({}); // Estado para almacenar qué filtros están expandidos
 
-  const { clearFilters, setFilters, filters } = props;
   const handleFilter = (filter, value) => {
     console.log(filter, value);
     setFilters(filter, value);
@@ -51,35 +23,30 @@ export default function FilterProducts(props) {
     });
   };
 
-  // console.log(filtros)
+  // Alternar el estado de "Ver más" o "Ver menos"
+  const toggleFilterExpand = (filterKey) => {
+    setExpandedFilters((prevExpanded) => ({
+      ...prevExpanded,
+      [filterKey]: !prevExpanded[filterKey],
+    }));
+  };
+
+  // Número máximo de valores visibles antes de hacer clic en "Ver más"
+  const MAX_VISIBLE_VALUES = 2;
+
   return (
     <div className="mt-5 mb-8 gap-y-4 mi-checklist">
-      {filtros.map((filtro) => (
+      {filterOptions.map((filtro) => (
         <Filter
           key={filtro.id}
           filterName={filtro.filtro}
           filterValues={filtro.valores}
           onHandleFilter={handleFilter}
+          isExpanded={expandedFilters[filtro.filtro] || false}
+          toggleExpand={() => toggleFilterExpand(filtro.filtro)}
+          maxVisibleValues={MAX_VISIBLE_VALUES}
         />
       ))}
-
-      {/*
-      <Select
-        onValueChange={(value) => handleFilter("capacity", value)}
-        value={filters.capacity}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Tipo de Motor" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>Capacidad (BTU/HR)</SelectLabel>
-            <SelectItem value="12000">12000</SelectItem>
-            <SelectItem value="14000">14000</SelectItem>
-            <SelectItem value="18000">18000</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select> */}
 
       <Button onClick={clearSelectsFilters}>
         Remover filtros <Trash className="w-4 h-4 ml-2" />
@@ -88,8 +55,26 @@ export default function FilterProducts(props) {
   );
 }
 
-const Filter = ({ filterName, filterValues, onHandleFilter }) => {
-  // console.log('Filter', filterName, filterValues)
+const Filter = ({
+  filterName,
+  filterValues,
+  onHandleFilter,
+  isExpanded,
+  toggleExpand,
+  maxVisibleValues,
+}) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Filtrar las opciones según el término de búsqueda
+  const filteredValues = filterValues.filter((value) =>
+    value.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Limitar el número de opciones visibles según el estado expandido o colapsado
+  const visibleValues = isExpanded
+    ? filteredValues
+    : filteredValues.slice(0, maxVisibleValues);
+
   const onChange = (e) => {
     console.log(e.target.checked, e.target.value);
     if (e.target.checked) {
@@ -98,6 +83,7 @@ const Filter = ({ filterName, filterValues, onHandleFilter }) => {
       onHandleFilter(filterName, e.target.value);
     }
   };
+
   return (
     <div className="border-b border-gray-400 py-6">
       <h3 className="-my-3 flow-root">
@@ -111,8 +97,16 @@ const Filter = ({ filterName, filterValues, onHandleFilter }) => {
         </button>
       </h3>
       <div className="pt-6">
+        {/* Input de búsqueda */}
+        <input
+          type="text"
+          className="w-full border border-gray-300 p-2 rounded-md mb-4"
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <div className="space-y-4">
-          {filterValues.map((value) => (
+          {visibleValues.map((value) => (
             <div key={value} className="flex items-center">
               <input
                 onChange={onChange}
@@ -123,6 +117,23 @@ const Filter = ({ filterName, filterValues, onHandleFilter }) => {
               <label className="ml-3 text-sm text-gray-600">{value}</label>
             </div>
           ))}
+
+          {/* Si no hay resultados de búsqueda */}
+          {filteredValues.length === 0 && (
+            <p className="text-sm text-gray-500">
+              No se encontraron resultados...
+            </p>
+          )}
+
+          {/* Botón "Ver más" o "Ver menos" */}
+          {filteredValues.length > maxVisibleValues && (
+            <button
+              className="text-gray-900 mt-2"
+              onClick={toggleExpand}
+            >
+              {isExpanded ? "- Ver menos" : "+ Ver más"}
+            </button>
+          )}
         </div>
       </div>
     </div>
