@@ -5,6 +5,7 @@ import ListProducts from "./ListProducts/ListProducts";
 import SidebarFilter from "./components/SidebarFilter";
 import FilterProducts from "./FiltersProducts/FilterProducts";
 
+
 export default function FiltersAndListProducts() {
   // const products = await fetchProducts();
   // Ejemplo de lo que puede tener unos productos
@@ -212,11 +213,12 @@ export default function FiltersAndListProducts() {
         {
           id: 3,
           filtro: "capacidad",
-          valores: ["12.000 btu/h", "14.000 btu/h"],
+          valores: ["12.000 btu/h", "14.000 btu/h",  "15.000 btu/h", "20.000 btu/h"],
         },
       ];
 
       setFilterOptions(data); // Guardamos los filtros dinámicos
+      // setFilterOptions(dataResponse)
 
       // Inicializar el estado de filtros basado en los filtros recibidos
       const initialFilters = {};
@@ -336,8 +338,7 @@ export default function FiltersAndListProducts() {
   };
 
   return (
-    <div className="max-w-screen-xl mt-8 mb-6 sm:mt-14 sm:mb-14 px-6 sm:px-8 mx-auto flex min-h-screen">
-      {/* <SidebarFilter className="w-1/6 bg-white p-4 shadow-md" /> */}
+    <div className="max-w-screen-xl mt-8 mb-6 px-6 sm:px-8 mx-auto md:flex min-h-screen">
       <FilterProducts
         setFilters={handleFilterChange}
         clearFilters={clearFilters}
