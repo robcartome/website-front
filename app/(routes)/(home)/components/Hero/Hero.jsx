@@ -12,12 +12,12 @@ const Hero = () => {
 
   return (
     <div
-      className="max-w-screen-xl mt-16 md:mt-4 px-8 xl:px-12 mx-auto"
+      className="max-w-screen-xl mt-16 px-8 xl:px-12 mx-auto"
       id="inicio"
     >
       <ScrollAnimationWrapper>
           <motion.div
-            className="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 gap-8 py-6 sm:pt-8"
+            className="grid grid-flow-row sm:grid-flow-col grid-rows-2 md:grid-rows-1 sm:grid-cols-2 md:gap-8 py-6 sm:pt-8"
             variants={scrollAnimation}>
             <div className="flex flex-col justify-center items-start row-start-2 sm:row-start-1">
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-medium  text-black-500 leading-normal">

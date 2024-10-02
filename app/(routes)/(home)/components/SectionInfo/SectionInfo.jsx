@@ -29,7 +29,7 @@ const SectionInfo = ({
   return (
     <div
       className="max-w-screen-xl md:mt-4 xl:px-12 mx-auto"
-      id="fin"
+      id="info"
     >
       <div className="relative w-full flex">
         <ScrollAnimationWrapper

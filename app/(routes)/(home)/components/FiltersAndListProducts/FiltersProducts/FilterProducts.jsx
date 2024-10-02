@@ -36,11 +36,11 @@ export default function FilterProducts(props) {
     }));
   };
 
-  const MAX_VISIBLE_VALUES = 2;
+  const MAX_VISIBLE_VALUES = 3;
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center mb-4">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" className="md:hidden w-full">
@@ -49,7 +49,7 @@ export default function FilterProducts(props) {
           </SheetTrigger>
           <SheetContent side="left">
             <div className="mt-5 mb-8 gap-y-4 mi-checklist space-y-2">
-              {filterOptions.map((filtro) => (
+              {filterOptions?.map((filtro) => (
                 <FilterOption
                   key={filtro.id}
                   filterName={filtro.filtro}
@@ -72,7 +72,7 @@ export default function FilterProducts(props) {
 
       <div className="mt-5 mb-8 gap-y-4 mi-checklist space-y-2 hidden md:block">
         <div className="flex items-center"><Filter className="mr-2 h-4 w-4" /> Filtros</div>
-        {filterOptions.map((filtro) => (
+        {filterOptions?.map((filtro) => (
           <FilterOption
             key={filtro.id}
             filterName={filtro.filtro}

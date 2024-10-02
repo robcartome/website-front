@@ -2,6 +2,7 @@ import React from "react";
 import { UserPen } from 'lucide-react';
 
 export default function FirstBlock() {
+  // Deprecated by ServiceCards
   return (
     <>
     <div className="text-3xl font-medium text-center">SERVICIOS</div>

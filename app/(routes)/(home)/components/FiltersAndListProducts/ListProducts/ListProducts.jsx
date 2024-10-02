@@ -16,7 +16,7 @@ export default function ListProducts(props) {
 
   console.log('lovedItems', lovedItems, products)
   return (
-    <section className="w-full md:p-4">
+    <section id="equipos" className="w-full md:p-4">
       <Search />
       <HeaderProducts />
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

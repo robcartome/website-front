@@ -30,7 +30,7 @@ const services = [
 
 export default function ServiceCards() {
   return (
-    <section className="relative overflow-hidden py-16">
+    <section id="servicios" className="relative overflow-hidden py-16">
       <div className="absolute inset-0 z-0">
         <svg
           className="h-full w-full"

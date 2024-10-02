@@ -213,11 +213,12 @@ export default function FiltersAndListProducts() {
         {
           id: 3,
           filtro: "capacidad",
-          valores: ["12.000 btu/h", "14.000 btu/h"],
+          valores: ["12.000 btu/h", "14.000 btu/h",  "15.000 btu/h", "20.000 btu/h"],
         },
       ];
 
       setFilterOptions(data); // Guardamos los filtros dinámicos
+      // setFilterOptions(dataResponse)
 
       // Inicializar el estado de filtros basado en los filtros recibidos
       const initialFilters = {};
