@@ -1,29 +1,34 @@
 import React, { useState } from "react";
 import { Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ChevronRight, Filter } from "lucide-react";
 
 export default function FilterProducts(props) {
   const { clearFilters, setFilters, filterOptions } = props;
-  console.log(filterOptions);
-  const [expandedFilters, setExpandedFilters] = useState({}); // Estado para almacenar qué filtros están expandidos
+  const [expandedFilters, setExpandedFilters] = useState({});
+  const [selectedFilters, setSelectedFilters] = useState({});
 
-  const handleFilter = (filter, value) => {
-    console.log(filter, value);
+  const handleFilter = (filter, value, isChecked) => {
+    setSelectedFilters((prev) => {
+      const updatedFilter = isChecked
+        ? [...(prev[filter] || []), value]
+        : prev[filter].filter((v) => v !== value);
+
+      return {
+        ...prev,
+        [filter]: updatedFilter,
+      };
+    });
+
     setFilters(filter, value);
   };
 
   const clearSelectsFilters = () => {
     clearFilters();
-    // Desmarca solo los checkboxes dentro de un contenedor con la clase "mi-checklist"
-    const checkboxes = document.querySelectorAll(
-      '.mi-checklist input[type="checkbox"]'
-    );
-    checkboxes.forEach((checkbox) => {
-      checkbox.checked = false;
-    });
+    setSelectedFilters({});
   };
 
-  // Alternar el estado de "Ver más" o "Ver menos"
   const toggleFilterExpand = (filterKey) => {
     setExpandedFilters((prevExpanded) => ({
       ...prevExpanded,
@@ -31,57 +36,85 @@ export default function FilterProducts(props) {
     }));
   };
 
-  // Número máximo de valores visibles antes de hacer clic en "Ver más"
   const MAX_VISIBLE_VALUES = 2;
 
   return (
-    <div className="mt-5 mb-8 gap-y-4 mi-checklist">
-      {filterOptions.map((filtro) => (
-        <Filter
-          key={filtro.id}
-          filterName={filtro.filtro}
-          filterValues={filtro.valores}
-          onHandleFilter={handleFilter}
-          isExpanded={expandedFilters[filtro.filtro] || false}
-          toggleExpand={() => toggleFilterExpand(filtro.filtro)}
-          maxVisibleValues={MAX_VISIBLE_VALUES}
-        />
-      ))}
+    <>
+      <div className="text-center">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" className="md:hidden w-full">
+              <Filter className="mr-2 h-4 w-4" /> Filtros
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left">
+            <div className="mt-5 mb-8 gap-y-4 mi-checklist space-y-2">
+              {filterOptions.map((filtro) => (
+                <FilterOption
+                  key={filtro.id}
+                  filterName={filtro.filtro}
+                  filterValues={filtro.valores}
+                  onHandleFilter={handleFilter}
+                  isExpanded={expandedFilters[filtro.filtro] || false}
+                  toggleExpand={() => toggleFilterExpand(filtro.filtro)}
+                  maxVisibleValues={MAX_VISIBLE_VALUES}
+                  selectedFilters={selectedFilters} // Pasar los filtros seleccionados
+                />
+              ))}
 
-      <Button onClick={clearSelectsFilters}>
-        Remover filtros <Trash className="w-4 h-4 ml-2" />
-      </Button>
-    </div>
+              <Button onClick={clearSelectsFilters}>
+                Remover filtros <Trash className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      <div className="mt-5 mb-8 gap-y-4 mi-checklist space-y-2 hidden md:block">
+        <div className="flex items-center"><Filter className="mr-2 h-4 w-4" /> Filtros</div>
+        {filterOptions.map((filtro) => (
+          <FilterOption
+            key={filtro.id}
+            filterName={filtro.filtro}
+            filterValues={filtro.valores}
+            onHandleFilter={handleFilter}
+            isExpanded={expandedFilters[filtro.filtro] || false}
+            toggleExpand={() => toggleFilterExpand(filtro.filtro)}
+            maxVisibleValues={MAX_VISIBLE_VALUES}
+            selectedFilters={selectedFilters} // Pasar los filtros seleccionados
+          />
+        ))}
+
+        <Button onClick={clearSelectsFilters}>
+          Remover filtros <Trash className="w-4 h-4 ml-2" />
+        </Button>
+      </div>
+    </>
   );
 }
 
-const Filter = ({
+const FilterOption = ({
   filterName,
   filterValues,
   onHandleFilter,
   isExpanded,
   toggleExpand,
   maxVisibleValues,
+  selectedFilters
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filtrar las opciones según el término de búsqueda
   const filteredValues = filterValues.filter((value) =>
     value.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Limitar el número de opciones visibles según el estado expandido o colapsado
   const visibleValues = isExpanded
     ? filteredValues
     : filteredValues.slice(0, maxVisibleValues);
 
   const onChange = (e) => {
-    console.log(e.target.checked, e.target.value);
-    if (e.target.checked) {
-      onHandleFilter(filterName, e.target.value);
-    } else {
-      onHandleFilter(filterName, e.target.value);
-    }
+    const isChecked = e.target.checked;
+    onHandleFilter(filterName, e.target.value, isChecked);
   };
 
   return (
@@ -97,7 +130,6 @@ const Filter = ({
         </button>
       </h3>
       <div className="pt-6">
-        {/* Input de búsqueda */}
         <input
           type="text"
           className="w-full border border-gray-300 p-2 rounded-md mb-4"
@@ -113,24 +145,18 @@ const Filter = ({
                 value={value}
                 type="checkbox"
                 className="h-4 w-4 rounded border-gray-300 text-sky-600 focus:ring-sky-500"
+                checked={selectedFilters[filterName]?.includes(value) || false} // Mostrar seleccionado si está en selectedFilters
               />
               <label className="ml-3 text-sm text-gray-600">{value}</label>
             </div>
           ))}
 
-          {/* Si no hay resultados de búsqueda */}
           {filteredValues.length === 0 && (
-            <p className="text-sm text-gray-500">
-              No se encontraron resultados...
-            </p>
+            <p className="text-sm text-gray-500">No se encontraron resultados...</p>
           )}
 
-          {/* Botón "Ver más" o "Ver menos" */}
           {filteredValues.length > maxVisibleValues && (
-            <button
-              className="text-gray-900 mt-2"
-              onClick={toggleExpand}
-            >
+            <button className="text-gray-900 mt-2" onClick={toggleExpand}>
               {isExpanded ? "- Ver menos" : "+ Ver más"}
             </button>
           )}
