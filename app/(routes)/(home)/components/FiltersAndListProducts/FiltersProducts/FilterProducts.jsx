@@ -47,8 +47,8 @@ export default function FilterProducts(props) {
               <Filter className="mr-2 h-4 w-4" /> Filtros
             </Button>
           </SheetTrigger>
-          <SheetContent side="left">
-            <div className="mt-5 mb-8 gap-y-4 mi-checklist space-y-2">
+          <SheetContent side="left" className="overflow-y-auto max-h-screen">
+            <div className="mb-4 space-y-2">
               {filterOptions?.map((filtro) => (
                 <FilterOption
                   key={filtro.id}
@@ -70,7 +70,7 @@ export default function FilterProducts(props) {
         </Sheet>
       </div>
 
-      <div className="mt-5 mb-8 gap-y-4 mi-checklist space-y-2 hidden md:block">
+      <div className="mt-2 space-y-2 hidden md:block">
         <div className="flex items-center"><Filter className="mr-2 h-4 w-4" /> Filtros</div>
         {filterOptions?.map((filtro) => (
           <FilterOption
@@ -118,7 +118,7 @@ const FilterOption = ({
   };
 
   return (
-    <div className="border-b border-gray-400 py-6">
+    <div className="border-b border-gray-400 py-5">
       <h3 className="-my-3 flow-root">
         <button
           type="button"
@@ -126,7 +126,7 @@ const FilterOption = ({
           aria-controls="filter-section-0"
           aria-expanded="true"
         >
-          <span className="font-medium text-gray-900">{filterName}</span>
+          <span className="font-medium text-gray-900 capitalize">{filterName}</span>
         </button>
       </h3>
       <div className="pt-6">

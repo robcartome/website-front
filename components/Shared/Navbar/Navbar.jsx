@@ -146,7 +146,8 @@ const Navbar = () => {
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                 </LinkScroll>
               ))}
-              <div className="relative">
+              {/* Dropdown menu for Servicios - Optional */}
+              {/* <div className="relative">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   onBlur={() => setIsDropdownOpen(false)}
@@ -173,7 +174,7 @@ const Navbar = () => {
                     </LinkScroll>
                   </div>
                 )}
-              </div>
+              </div> */}
               {/* <Link
                 href="/"
                 className="text-gray-500 mx-2 sm:mx-4 capitalize tracking-wide hover:text-sky-500 transition-all py-2"
