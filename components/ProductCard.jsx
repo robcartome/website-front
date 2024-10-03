@@ -15,10 +15,12 @@ export default function ProductCard({
   description,
   imgUrl,
   addLovedProduct,
-  likedProduct
+  likedProduct,
+  linkToDetail=''
 }) {
   // const linkToDetail = `/detail/${slug}`; // detail/aire-acondicionado-split-pared-york-12000-btu
-  const linkToDetail = `details/${name}`;
+  // const linkToDetail = `${name}`;
+
   const imageLoader = ({ src, width, quality }) => {
     return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
   };
@@ -37,8 +39,8 @@ export default function ProductCard({
           className="w-full"
         />
         <div className="px-3 py-2">
-          <div className="font-bold text-lg mb-1 justify-between">
-            <span>
+          <div className="mb-1 justify-between">
+            <span className="font-bold text-sm md:text-base">
               {name}
             </span>
             <BadgeCheck

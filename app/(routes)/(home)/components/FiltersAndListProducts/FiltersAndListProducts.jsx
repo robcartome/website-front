@@ -124,7 +124,7 @@ export default function FiltersAndListProducts() {
       ruta_archivo_pdf:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\c6454721ec\\producto_pdf.pdf",
       ruta_imagen_principal:
-        "https://plus.unsplash.com/premium_photo-1682126009570-3fe2399162f7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://plus.unsplash.com/premium_photo-1661315526732-271aa84f480d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ruta_imagen_secundaria:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\c6454721ec\\imagen_secundaria.jpg",
       ruta_imagen_terciaria:
@@ -149,7 +149,7 @@ export default function FiltersAndListProducts() {
       ruta_archivo_pdf:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\cbd79ca1d5\\producto_pdf.pdf",
       ruta_imagen_principal:
-        "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\cbd79ca1d5\\imagen_principal.jpg",
+        "https://images.unsplash.com/photo-1545259742-b4fd8fea67e4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ruta_imagen_secundaria:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\cbd79ca1d5\\imagen_secundaria.jpg",
       ruta_imagen_terciaria:
@@ -170,7 +170,7 @@ export default function FiltersAndListProducts() {
       ruta_archivo_pdf:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\1ea8fe3a10\\producto_pdf.pdf",
       ruta_imagen_principal:
-        "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\1ea8fe3a10\\imagen_principal.jpg",
+        "https://plus.unsplash.com/premium_photo-1677172319902-6cc0ef89be25?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ruta_imagen_secundaria:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\1ea8fe3a10\\imagen_secundaria.jpg",
       ruta_imagen_terciaria:
@@ -191,7 +191,7 @@ export default function FiltersAndListProducts() {
       ruta_archivo_pdf:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\5ad69a2abb\\producto_pdf.pdf",
       ruta_imagen_principal:
-        "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\5ad69a2abb\\imagen_principal.jpg",
+        "https://images.unsplash.com/photo-1523495909838-79c67b15be34?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       ruta_imagen_secundaria:
         "C:\\Users\\DURAN\\Desktop\\APP_AIRE\\static/uploads\\5ad69a2abb\\imagen_secundaria.jpg",
       ruta_imagen_terciaria:
@@ -369,7 +369,7 @@ export default function FiltersAndListProducts() {
   };
 
   return (
-    <div className="w-full max-w-screen-xl mt-8 mb-6 px-4 sm:px-8 mx-auto md:flex">
+    <div className="w-full max-w-screen-xl mt-8 mb-6 px-3.5 sm:px-8 mx-auto md:flex">
       {loading ? (
         <div>Cargando filtros...</div>
       ) : (

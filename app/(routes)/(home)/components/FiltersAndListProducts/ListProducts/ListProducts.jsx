@@ -45,6 +45,7 @@ export default function ListProducts(props) {
                   ? () => removeLovedItem(product.id)
                   : () => addLovedItem(product)}
               likedProduct={likedProduct}
+              linkToDetail={`details/${nombre_producto_corto}`}
             />
           );
         })}
