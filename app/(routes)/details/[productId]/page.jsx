@@ -138,7 +138,7 @@ const DetailsPage = () => {
         {/* Section Productos relacionados */}
         <section className="w-full p-4">
           <h1 className="text-center text-2xl font-bold mb-4">Productos relacionados</h1>
-          <div className="grid gap-x-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {
             relatedProducts.map((product) => {
               const {id, nombre_producto, precio_producto, descripcion, ruta_imagen_principal} = product
@@ -150,6 +150,7 @@ const DetailsPage = () => {
                   price={precio_producto}
                   description={descripcion}
                   imgUrl={ruta_imagen_principal}
+                  linkToDetail={nombre_producto}
                 />
               )
             })

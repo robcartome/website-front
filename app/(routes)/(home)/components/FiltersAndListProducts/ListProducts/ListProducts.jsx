@@ -19,9 +19,9 @@ export default function ListProducts(props) {
     <section id="equipos" className="w-full md:p-4">
       <Search />
       <HeaderProducts />
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-2 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {products.length < 1 && (
-          <div className="flex w-full">Sin productos...</div>
+          <div className="w-full">Sin productos...</div>
         )}
         {products.map((product) => {
           const {
@@ -45,6 +45,7 @@ export default function ListProducts(props) {
                   ? () => removeLovedItem(product.id)
                   : () => addLovedItem(product)}
               likedProduct={likedProduct}
+              linkToDetail={`details/${nombre_producto_corto}`}
             />
           );
         })}
