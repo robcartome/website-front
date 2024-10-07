@@ -279,7 +279,7 @@ export default function FiltersAndListProducts() {
     };
 
     fetchFiltros();
-    // fetchProducts();
+    // fetchProducts(); // PARA FETCH PRODUCTOS
   }, []); // Se ejecuta solo una vez al montar el componente
 
   useEffect(() => {

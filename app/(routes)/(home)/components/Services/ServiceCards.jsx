@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import ContactButton from "../Contact/Contact"
 
 const services = [
   {
@@ -60,7 +60,7 @@ export default function ServiceCards() {
                 <p>{service.description}</p>
               </CardContent>
               <CardFooter className="mt-auto">
-                <Button className="w-full bg-sky-500 hover:bg-sky-400">{service.buttonText}</Button>
+                <ContactButton type='normal' buttonText={service.buttonText} />
               </CardFooter>
             </Card>
           ))}
