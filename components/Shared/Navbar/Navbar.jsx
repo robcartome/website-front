@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { Link as LinkScroll } from "react-scroll";
-import ButtonOutline from "../../buttons/ButtonOutline";
 import Logo from "./Logo";
 import LovedProducts from "@/app/(routes)/(home)/components/LovedProducts/LovedProducts";
+import ContactButton from "@/app/(routes)/(home)/components/Contact/Contact";
 import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
@@ -106,7 +105,7 @@ const Navbar = () => {
               >
                 Iniciar Sesión
               </Link> */}
-              <ButtonOutline>Contactanos</ButtonOutline>
+              <ContactButton type='outline' buttonText='Contactanos' />
             </div>
             <div className="lg:hidden">
               <button
@@ -182,7 +181,7 @@ const Navbar = () => {
                 Iniciar Sesión
               </Link> */}
               <div className="py-3">
-                <ButtonOutline>Contactanos</ButtonOutline>
+                <ContactButton type='outline' buttonText='Contactanos' />
               </div>
             </ul>
           </div>
