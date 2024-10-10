@@ -19,8 +19,9 @@ export default function ProductCard({
   linkToDetail=''
 }) {
   // const linkToDetail = `/detail/${slug}`; // detail/aire-acondicionado-split-pared-york-12000-btu
-  // const linkToDetail = `${name}`;
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const srcImg = `${apiUrl}/${imgUrl}`; // PARA FETCH PRODUCTOS
+  // const srcImg = imgUrl;
   const imageLoader = ({ src, width, quality }) => {
     return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
   };
@@ -30,7 +31,7 @@ export default function ProductCard({
       <div className="flex flex-col justify-between h-full">
         <img
           // src="/assets/aireacondicionado.svg"
-          src={imgUrl}
+          src={srcImg}
           alt="Aire acondicionado"
           layout="responsive"
           quality={100}
@@ -57,7 +58,7 @@ export default function ProductCard({
           <ul className="list-disc text-gray-700 text-xs pl-4">
             <li>Tipo de Gas: </li>
             <li>Consumo: </li>
-            <li>Potencia: 12000 btu</li>
+            <li>Potencia: </li>
             <li>Cop: </li>
           </ul>
         </div>
