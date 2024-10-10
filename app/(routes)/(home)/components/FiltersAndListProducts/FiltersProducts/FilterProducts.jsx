@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ChevronRight, Filter } from "lucide-react";
 
+
 export default function FilterProducts(props) {
   const { clearFilters, setFilters, filterOptions } = props;
   const [expandedFilters, setExpandedFilters] = useState({});

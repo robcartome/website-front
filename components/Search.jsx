@@ -1,13 +1,29 @@
-export default function Search() {
+import { useState } from "react";
+
+export default function Search({ onSearch }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    onSearch(value); // Llamamos a la función de búsqueda que pasaremos desde el componente padre
+  };
+
   return (
     <div className="flex items-center w-full space-x-2 rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-900 px-2 py-1">
       <SearchIcon className="h-4 w-4" />
-      <input className="w-full border-none bg-gray-50 focus:outline-none" placeholder="Buscar" ></input>
+      <input
+        className="w-full border-none bg-gray-50 focus:outline-none"
+        placeholder="Buscar"
+        value={searchTerm}
+        onChange={handleInputChange}
+      />
     </div>
-  )
+  );
 }
 
-function SearchIcon(props) {
+
+const SearchIcon = (props) => {
   return (
     <svg
       {...props}
