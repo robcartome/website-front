@@ -6,45 +6,83 @@ import { SkeletonProducts } from "@/components/Shared/Skeletons/Skeletons";
 import { useLovedProducts } from "@/hooks/use-loved-products";
 
 export default function ListProducts({ products }) {
-  console.log(products)
   const { addLovedItem, lovedItems, removeLovedItem } = useLovedProducts();
-  const [filteredProducts, setFilteredProducts] = useState(products); // Guardamos los productos filtrados
+  const [filteredProducts, setFilteredProducts] = useState(products || []);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(20);
 
-  // Actualizar filteredProducts cada vez que los productos cambien
   useEffect(() => {
-    setFilteredProducts(products || []); // Si `products` es undefined, inicializa con un array vacío
+    setFilteredProducts(products || []);
   }, [products]);
 
   const handleSearch = (searchTerm) => {
     if (!searchTerm) {
-      setFilteredProducts(products); // Si no hay búsqueda, mostramos todos los productos
+      setFilteredProducts(products);
+      setCurrentPage(1);
       return;
     }
 
-    // Filtrar productos por nombre o descripción
     const filtered = products.filter((product) =>
       product.nombre_producto_corto.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     setFilteredProducts(filtered);
+    setCurrentPage(1);
   };
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (!filteredProducts) {
     return <SkeletonProducts />;
   }
 
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  // Lógica para mostrar el rango de páginas visibles y botones "Anterior" y "Siguiente"
+  const pageNumbers = [];
+  const maxVisiblePages = 3;
+
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, currentPage + 2);
+
+  if (endPage - startPage < maxVisiblePages - 1) {
+    if (currentPage <= 2) {
+      endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    } else if (currentPage >= totalPages - 1) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
 
   return (
     <section id="equipos" className="w-full md:p-4">
-      {/* Pasamos la función de búsqueda al componente Search */}
       <Search onSearch={handleSearch} />
       <HeaderProducts />
+
       <div className="grid gap-2 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredProducts.length < 1 && (
-          <div className="w-full">Sin productos...</div>
-        )}
-        {filteredProducts?.map((product) => {
+        {currentProducts.length < 1 && <div className="w-full">Sin productos...</div>}
+
+        {currentProducts.map((product) => {
           const {
             id,
             nombre_producto_corto,
@@ -72,6 +110,70 @@ export default function ListProducts({ products }) {
             />
           );
         })}
+      </div>
+
+      {/* Paginación */}
+      <div className="pagination mt-4 flex justify-center items-center">
+        {/* Botón de página anterior */}
+        <button
+          onClick={prevPage}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-sky-500 text-white'
+          }`}
+          disabled={currentPage === 1}
+        >
+          &lt;
+        </button>
+
+        {/* Primer página */}
+        {startPage > 1 && (
+          <>
+            <button
+              onClick={() => paginate(1)}
+              className={`mx-1 px-3 py-1 rounded ${currentPage === 1 ? 'bg-sky-500 text-white' : 'bg-gray-200'}`}
+            >
+              1
+            </button>
+            {startPage > 2 && <span className="mx-1">...</span>}
+          </>
+        )}
+
+        {/* Páginas intermedias */}
+        {pageNumbers.map((page) => (
+          <button
+            key={page}
+            onClick={() => paginate(page)}
+            className={`mx-1 px-3 py-1 rounded ${
+              currentPage === page ? 'bg-sky-500 text-white' : 'bg-gray-200'
+            }`}
+          >
+            {page}
+          </button>
+        ))}
+
+        {/* Última página */}
+        {endPage < totalPages && (
+          <>
+            {endPage < totalPages - 1 && <span className="mx-1">...</span>}
+            <button
+              onClick={() => paginate(totalPages)}
+              className={`mx-1 px-3 py-1 rounded ${currentPage === totalPages ? 'bg-sky-500 text-white' : 'bg-gray-200'}`}
+            >
+              {totalPages}
+            </button>
+          </>
+        )}
+
+        {/* Botón de página siguiente */}
+        <button
+          onClick={nextPage}
+          className={`mx-1 px-3 py-1 rounded ${
+            currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-sky-500 text-white'
+          }`}
+          disabled={currentPage === totalPages}
+        >
+          &gt;
+        </button>
       </div>
     </section>
   );
