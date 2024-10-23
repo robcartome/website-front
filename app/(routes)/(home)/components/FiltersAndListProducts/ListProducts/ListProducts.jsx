@@ -10,30 +10,63 @@ export default function ListProducts({ products }) {
   const [filteredProducts, setFilteredProducts] = useState(products || []);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(20);
+  const [selectedFamily, setSelectedFamily] = useState(""); // Estado para la familia seleccionada
 
   useEffect(() => {
     setFilteredProducts(products || []);
   }, [products]);
 
   const handleSearch = (searchTerm) => {
-    if (!searchTerm) {
+    if (!searchTerm && !selectedFamily) {
       setFilteredProducts(products);
       setCurrentPage(1);
       return;
     }
 
-    const filtered = products.filter((product) =>
-      product.nombre_producto_corto.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.descripcion.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filtered = products.filter((product) => {
+      const matchesSearch =
+        product.nombre_producto_corto
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        product.descripcion
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase());
+
+      const matchesFamily = selectedFamily
+        ? product.familia?.toLowerCase() === selectedFamily.toLowerCase()
+        : true;
+
+      return matchesSearch && matchesFamily;
+    });
 
     setFilteredProducts(filtered);
     setCurrentPage(1);
   };
 
+  const handleFamilyFilter = (family) => {
+    if (selectedFamily === family) {
+      // Si la familia ya está seleccionada, la deseleccionamos y mostramos todos los productos
+      setSelectedFamily("");
+      setFilteredProducts(products);
+    } else {
+      // Si seleccionamos una familia diferente, filtramos por esa familia
+      setSelectedFamily(family);
+
+      const filtered = products.filter(
+        (product) => product.familia?.toLowerCase() === family.toLowerCase()
+      );
+      setFilteredProducts(filtered);
+    }
+
+    setCurrentPage(1); // Reiniciamos la paginación
+  };
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -76,11 +109,43 @@ export default function ListProducts({ products }) {
 
   return (
     <section id="equipos" className="w-full md:p-4">
+      {/* Filtros de Familia */}
+      <div className="flex flex-wrap gap-2 mb-2 md:flex-nowrap">
+        <button
+          className={`text-slate-800 hover:text-sky-500 text-xs md:text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
+            selectedFamily === "Conjunto 1x1" ? "bg-slate-400 text-white" : ""
+          }`}
+          onClick={() => handleFamilyFilter("Conjunto 1x1")}
+        >
+          CONJUNTO 1x1
+        </button>
+        <button
+          className={`text-slate-800 hover:text-sky-500 text-xs md:text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
+            selectedFamily === "Interior Multi" ? "bg-slate-400 text-white" : ""
+          }`}
+          onClick={() => handleFamilyFilter("Interior Multi")}
+        >
+          INTERIOR MULTI
+        </button>
+        <button
+          className={`text-slate-800 hover:text-sky-500 text-xs md:text-sm bg-white hover:bg-slate-100 border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
+            selectedFamily === "Exterior Multi" ? "bg-slate-400 text-white" : ""
+          }`}
+          onClick={() => handleFamilyFilter("Exterior Multi")}
+        >
+          EXTERIOR MULTI
+        </button>
+      </div>
+
+      {/* Componente de Búsqueda */}
       <Search onSearch={handleSearch} />
+
       <HeaderProducts />
 
       <div className="grid gap-2 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {currentProducts.length < 1 && <div className="w-full">Sin productos...</div>}
+        {currentProducts.length < 1 && (
+          <div className="w-full">Sin productos...</div>
+        )}
 
         {currentProducts.map((product) => {
           const {
@@ -118,7 +183,9 @@ export default function ListProducts({ products }) {
         <button
           onClick={prevPage}
           className={`mx-1 px-3 py-1 rounded ${
-            currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-sky-500 text-white'
+            currentPage === 1
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-sky-500 text-white"
           }`}
           disabled={currentPage === 1}
         >
@@ -130,7 +197,9 @@ export default function ListProducts({ products }) {
           <>
             <button
               onClick={() => paginate(1)}
-              className={`mx-1 px-3 py-1 rounded ${currentPage === 1 ? 'bg-sky-500 text-white' : 'bg-gray-200'}`}
+              className={`mx-1 px-3 py-1 rounded ${
+                currentPage === 1 ? "bg-sky-500 text-white" : "bg-gray-200"
+              }`}
             >
               1
             </button>
@@ -144,7 +213,7 @@ export default function ListProducts({ products }) {
             key={page}
             onClick={() => paginate(page)}
             className={`mx-1 px-3 py-1 rounded ${
-              currentPage === page ? 'bg-sky-500 text-white' : 'bg-gray-200'
+              currentPage === page ? "bg-sky-500 text-white" : "bg-gray-200"
             }`}
           >
             {page}
@@ -157,7 +226,11 @@ export default function ListProducts({ products }) {
             {endPage < totalPages - 1 && <span className="mx-1">...</span>}
             <button
               onClick={() => paginate(totalPages)}
-              className={`mx-1 px-3 py-1 rounded ${currentPage === totalPages ? 'bg-sky-500 text-white' : 'bg-gray-200'}`}
+              className={`mx-1 px-3 py-1 rounded ${
+                currentPage === totalPages
+                  ? "bg-sky-500 text-white"
+                  : "bg-gray-200"
+              }`}
             >
               {totalPages}
             </button>
@@ -168,7 +241,9 @@ export default function ListProducts({ products }) {
         <button
           onClick={nextPage}
           className={`mx-1 px-3 py-1 rounded ${
-            currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-sky-500 text-white'
+            currentPage === totalPages
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-sky-500 text-white"
           }`}
           disabled={currentPage === totalPages}
         >
