@@ -10,7 +10,7 @@ import { Menu, X } from "lucide-react";
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState(null);
   const [scrollActive, setScrollActive] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -46,13 +46,13 @@ const Navbar = () => {
                     duration={1000}
                     onSetActive={() => setActiveLink(item)}
                     className={
-                      "px-4 py-2 mx-2 cursor-pointer animation-hover inline-block relative" +
+                      "px-4 py-2 mx-2 cursor-pointer animation-hover inline-block relative capitalize" +
                       (activeLink === item
                         ? " text-sky-500 animation-active"
                         : " text-black-500 hover:text-sky-500")
                     }
                   >
-                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                    {item}
                   </LinkScroll>
                 ))}
                 {/* Dropdown menu for Servicios - Optional */}

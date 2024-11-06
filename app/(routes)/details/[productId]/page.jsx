@@ -1,39 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-
-import { useRouter } from "next/router";
 import { useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import getScrollAnimation from "@/lib/getScrollAnimation";
 import ScrollAnimationWrapper from "../../../../components/ScrollAnimationWrapper";
 import ProductCard from "@/components/ProductCard";
 import Navbar from "@/components/Shared/Navbar/Navbar";
 import Footer from "@/components/Footer";
-import { products } from "@/app/data";
-
-// const features = [
-//   "Marca: York",
-//   "Tipo: Split Pared",
-//   "Capacidad: 12.000 btu/h",
-//   "Gas: R-410A",
-//   "Función: Frio solo",
-//   "Características eléctricas: 220V/1F/60HZ",
-//   "Modelo unidad condensadora: YHFE12YJMDTMO-X",
-// ];
+import { Download } from "lucide-react";
+import { useLovedProducts } from "@/hooks/use-loved-products";
 
 const DetailsPage = ({ params }) => {
   const { productId } = params;
+  const searchParams = useSearchParams();
+  const { addLovedItem, lovedItems, removeLovedItem } = useLovedProducts();
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState(null);  // Estado para almacenar los detalles del producto
   const [features, setFeatures] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const scrollAnimation = useMemo(() => getScrollAnimation(), []);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     if (productId) {
       const fetchDetail = async () => {
         try {
           setLoading(true);
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL;
           const response = await fetch(`${apiUrl}/productos/store/${productId}`);
 
           if (!response.ok) {
@@ -67,23 +60,36 @@ const DetailsPage = ({ params }) => {
       };
       fetchDetail();
     }
-  }, [productId]);  // El efecto se ejecuta cuando cambia el ID
+  }, [productId, apiUrl]);  // El efecto se ejecuta cuando cambia el ID
+
+  // Obtener productos relacionados desde los query params y deserializarlos
+  useEffect(() => {
+    const related = searchParams.get("related");
+    if (related) {
+      try {
+        // Decodifica y deserializa el JSON de productos relacionados
+        const relatedProductsData = JSON.parse(decodeURIComponent(related));
+        console.log(relatedProductsData)
+        setRelatedProducts(relatedProductsData);
+      } catch (err) {
+        console.error("Error parsing related products:", err);
+      }
+    }
+  }, [searchParams]);
 
   if (loading) return <div>Cargando detalles del producto...</div>;
 
-  if (!detail) {
-    return <div>Cargando detalles del producto...</div>;
-  }
+  if (!detail) return <div>Error al cargar los detalles del producto</div>;
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   const srcImg = `${apiUrl}/${detail.ruta_imagen_principal}`; // PARA FETCH PRODUCTOS
   // const srcImg = imgUrl;
+  const srcFile = `${apiUrl}/${detail.ruta_archivo_pdf}`;
 
   return (
     <>
       <Navbar />
-      <div className="max-w-screen-xl mt-32 mb-6 sm:mb-24 px-6 sm:px-8 lg:px-16 mx-auto " id="equipamientos">
-        <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-2 gap-8 p-8 my-12">
+      <div className="max-w-screen-xl mt-20 sm:mt-28 mb-6 sm:mb-24 px-6 sm:px-8 lg:px-16 mx-auto ">
+        <div className="grid grid-flow-row sm:grid-flow-col grid-cols-1 sm:grid-cols-2 gap-8 p-8 mt-8">
           <ScrollAnimationWrapper className="flex w-full justify-end">
             <motion.div className="h-full w-full p-4" variants={scrollAnimation}>
               <img
@@ -102,7 +108,7 @@ const DetailsPage = ({ params }) => {
                 {detail.nombre_producto_completo}
               </h3>
               <p className="my-2 text-black-500 text-justify">
-                una maravilla de la tecnología que transformará tu hogar o
+                Una maravilla de la tecnología que transformará tu hogar o
                 espacio de trabajo. Si buscas la comodidad suprema sin
                 comprometer la eficiencia, este es tu aliado perfecto..
               </p>
@@ -126,7 +132,15 @@ const DetailsPage = ({ params }) => {
                 ))}
               </ul>
             </motion.div>
+            <div className="flex flex-col mt-8 ml-auto w-full lg:w-9/12">
+              <div>
+                <a href={srcFile} target="_blank" rel="noopener" className="flex justify-center gap-1 py-2 lg:py-4 px-6 lg:px-16 text-white font-semibold rounded-lg bg-sky-500 hover:shadow-lg">
+                  <Download /> Ver Ficha Técnica
+                </a>
+              </div>
+            </div>
           </ScrollAnimationWrapper>
+
         </div>
 
         {/* Descripción */}
@@ -141,16 +155,30 @@ const DetailsPage = ({ params }) => {
           <h1 className="text-center text-2xl font-bold mb-4">Productos relacionados</h1>
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {
-            products.slice(1,4).map((product) => {
-              const {id, nombre_producto, precio_producto, descripcion, ruta_imagen_principal} = product
+            relatedProducts.map((product) => {
+              const {
+                id,
+                nombre_producto_corto,
+                precio_producto,
+                descripcion,
+                ruta_imagen_principal,
+              } = product;
+              const likedProduct = lovedItems.some((item) => item.id === id);
+              const relatedProductsParam = encodeURIComponent(JSON.stringify(relatedProducts));
               return (
                 <ProductCard
                   key={id}
-                  name={nombre_producto}
+                  name={nombre_producto_corto}
                   price={precio_producto}
                   description={descripcion}
                   imgUrl={ruta_imagen_principal}
-                  linkToDetail={nombre_producto}
+                  addLovedProduct={
+                    likedProduct
+                      ? () => removeLovedItem(id)
+                      : () => addLovedItem(product)
+                  }
+                  likedProduct={likedProduct}
+                  linkToDetail={`/details/${id}?related=${relatedProductsParam}`}
                 />
               )
             })

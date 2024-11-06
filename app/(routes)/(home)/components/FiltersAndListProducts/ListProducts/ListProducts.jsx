@@ -155,9 +155,12 @@ export default function ListProducts({ products }) {
             descripcion,
             ruta_imagen_principal,
           } = product;
-
           const likedProduct = lovedItems.some((item) => item.id === id);
-
+          // Filtra 4 productos relacionados según familia
+          const relatedProducts = products
+          .filter((p) => p.familia === product.familia && p.id !== id)
+          .slice(0, 4);
+          const relatedProductsParam = encodeURIComponent(JSON.stringify(relatedProducts));
           return (
             <ProductCard
               key={id}
@@ -167,11 +170,11 @@ export default function ListProducts({ products }) {
               imgUrl={ruta_imagen_principal}
               addLovedProduct={
                 likedProduct
-                  ? () => removeLovedItem(product.id)
+                  ? () => removeLovedItem(id)
                   : () => addLovedItem(product)
               }
               likedProduct={likedProduct}
-              linkToDetail={`details/${id}`}
+              linkToDetail={`details/${id}?related=${relatedProductsParam}`}
             />
           );
         })}
