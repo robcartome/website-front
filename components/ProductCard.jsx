@@ -3,7 +3,6 @@
 import React from "react";
 import { BadgeCheck } from 'lucide-react';
 import Image from "next/image";
-// import './ProductCard.css';
 
 // import { FaChalkboardTeacher, FaRegCalendarAlt } from 'react-icons/fa';
 import Link from "next/link";
@@ -66,7 +65,7 @@ export default function ProductCard({
             <span className="inline-block bg-gray-200 rounded-full px-2 text-xs font-semibold text-gray-700">
               EUR {price}
             </span>
-            <Link
+            <a
               className="pl-3 pr-2 py-0 text-sky-100 font-medium bg-sky-500 rounded-full inline-flex items-center text-xs"
               href={linkToDetail}
             >
@@ -88,7 +87,7 @@ export default function ProductCard({
                   d="M13 7l5 5m0 0l-5 5m5-5H6"
                 />
               </svg>
-            </Link>
+            </a>
         </div>
       </div>
     </div>
