@@ -112,7 +112,7 @@ export default function ListProducts({ products }) {
       {/* Filtros de Familia */}
       <div className="flex flex-wrap gap-2 mb-2 md:flex-nowrap">
         <button
-          className={`text-slate-800 text-xs md:text-sm bg-white  border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
+          className={`text-slate-800 text-xs md:text-sm border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
             selectedFamily === "Conjunto 1x1" ? "bg-blue-400 text-white" : ""
           }`}
           onClick={() => handleFamilyFilter("Conjunto 1x1")}
@@ -120,7 +120,7 @@ export default function ListProducts({ products }) {
           CONJUNTO 1x1
         </button>
         <button
-          className={`text-slate-800 text-xs md:text-sm bg-white  border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
+          className={`text-slate-800 text-xs md:text-sm  border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
             selectedFamily === "Interior Multi" ? "bg-blue-400 text-white" : ""
           }`}
           onClick={() => handleFamilyFilter("Interior Multi")}
@@ -128,7 +128,7 @@ export default function ListProducts({ products }) {
           INTERIOR MULTI
         </button>
         <button
-          className={`text-slate-800 text-xs md:text-sm bg-white  border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
+          className={`text-slate-800 text-xs md:text-sm  border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
             selectedFamily === "Exterior Multi" ? "bg-blue-400 text-white" : ""
           }`}
           onClick={() => handleFamilyFilter("Exterior Multi")}
