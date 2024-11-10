@@ -4,6 +4,8 @@ import ProductCard from "../../../../../../components/ProductCard";
 import Search from "@/components/Search";
 import { SkeletonProducts } from "@/components/Shared/Skeletons/Skeletons";
 import { useLovedProducts } from "@/hooks/use-loved-products";
+import { Group } from 'lucide-react';
+
 
 export default function ListProducts({ products }) {
   const { addLovedItem, lovedItems, removeLovedItem } = useLovedProducts();
@@ -108,8 +110,9 @@ export default function ListProducts({ products }) {
   };
 
   return (
-    <section id="equipos" className="w-full md:p-4">
+    <section id="equipos" className="w-full md:px-4 pb-4">
       {/* Filtros de Familia */}
+      <div className="font-medium text-gray-900 flex gap-2 mb-2"><Group />Seleccionar Familia</div>
       <div className="flex flex-wrap gap-2 mb-2 md:flex-nowrap">
         <button
           className={`text-slate-800 text-xs md:text-sm border border-slate-200 rounded-lg font-medium px-4 py-2 md:w-full ${
