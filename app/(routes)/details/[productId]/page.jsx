@@ -156,22 +156,13 @@ const DetailsPage = ({ params }) => {
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {
             relatedProducts.map((product) => {
-              const {
-                id,
-                nombre_producto_corto,
-                precio_producto,
-                descripcion,
-                ruta_imagen_principal,
-              } = product;
+              const id = product.id;
               const likedProduct = lovedItems.some((item) => item.id === id);
               const relatedProductsParam = encodeURIComponent(JSON.stringify(relatedProducts));
               return (
                 <ProductCard
                   key={id}
-                  name={nombre_producto_corto}
-                  price={precio_producto}
-                  description={descripcion}
-                  imgUrl={ruta_imagen_principal}
+                  product={product}
                   addLovedProduct={
                     likedProduct
                       ? () => removeLovedItem(id)

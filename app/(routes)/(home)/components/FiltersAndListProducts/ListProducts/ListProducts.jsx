@@ -148,13 +148,7 @@ export default function ListProducts({ products }) {
         )}
 
         {currentProducts.map((product) => {
-          const {
-            id,
-            nombre_producto_corto,
-            precio_producto,
-            descripcion,
-            ruta_imagen_principal,
-          } = product;
+          const id = product.id;
           const likedProduct = lovedItems.some((item) => item.id === id);
           // Filtra 4 productos relacionados según familia
           const relatedProducts = products
@@ -164,10 +158,7 @@ export default function ListProducts({ products }) {
           return (
             <ProductCard
               key={id}
-              name={nombre_producto_corto}
-              price={precio_producto}
-              description={descripcion}
-              imgUrl={ruta_imagen_principal}
+              product={product}
               addLovedProduct={
                 likedProduct
                   ? () => removeLovedItem(id)

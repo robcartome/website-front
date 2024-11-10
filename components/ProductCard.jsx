@@ -2,24 +2,39 @@
 "use client";
 import React from "react";
 import { BadgeCheck } from 'lucide-react';
-import Image from "next/image";
 
-// import { FaChalkboardTeacher, FaRegCalendarAlt } from 'react-icons/fa';
-import Link from "next/link";
 
 export default function ProductCard({
-  slug,
-  name,
-  price,
-  description,
-  imgUrl,
+  product,
   addLovedProduct,
   likedProduct,
-  linkToDetail=''
+  linkToDetail='',
 }) {
-  // const linkToDetail = `/detail/${slug}`; // detail/aire-acondicionado-split-pared-york-12000-btu
+
+  const {
+    nombre_producto_corto,
+    precio_producto,
+    ruta_imagen_principal,
+    filtros,
+  } = product || {};
+
+  const filtrosMap = {
+    "CAPACIDAD NOMINAL FRIO": "N/A",
+    "CAPACIDAD NOMINAL CALOR": "N/A",
+    "CONSUMO FRIO": "N/A",
+    "CONSUMO CALOR": "N/A",
+    "PRESIÓN SONORA MEDIA": "N/A"
+  };
+
+  // Iteramos solo una vez sobre `filtros` y llenamos `filtrosMap` con los valores encontrados
+  filtros.forEach(filtro => {
+    if (filtrosMap.hasOwnProperty(filtro.filtro)) {
+      filtrosMap[filtro.filtro] = filtro.valor;
+    }
+  });
+
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const srcImg = `${apiUrl}/${imgUrl}`; // PARA FETCH PRODUCTOS
+  const srcImg = `${apiUrl}/${ruta_imagen_principal}`; // PARA FETCH PRODUCTOS
   // const srcImg = imgUrl;
   const imageLoader = ({ src, width, quality }) => {
     return `https://example.com/${src}?w=${width}&q=${quality || 75}`;
@@ -29,7 +44,6 @@ export default function ProductCard({
     <div className="max-w-sm rounded overflow-hidden shadow-lg">
       <div className="flex flex-col justify-between h-full">
         <img
-          // src="/assets/aireacondicionado.svg"
           src={srcImg}
           alt="Aire acondicionado"
           layout="responsive"
@@ -41,7 +55,7 @@ export default function ProductCard({
         <div className="px-3 py-2">
           <div className="mb-1 justify-between">
             <span className="font-bold text-sm md:text-base">
-              {name}
+              {nombre_producto_corto}
             </span>
             <BadgeCheck
               className={`cursor-pointer ${likedProduct ? 'fill-sky-500' : ''}`}
@@ -55,15 +69,16 @@ export default function ProductCard({
             />
           </div>
           <ul className="list-disc text-gray-700 text-xs pl-4">
-            <li>Tipo de Gas: </li>
-            <li>Consumo: </li>
-            <li>Potencia: </li>
-            <li>Cop: </li>
+            <li>Cap nominal frío: {filtrosMap["CAPACIDAD NOMINAL FRIO"]}</li>
+            <li>Cap. nominal calor: {filtrosMap["CAPACIDAD NOMINAL CALOR"]}</li>
+            <li>Consumo frío: {filtrosMap["CONSUMO FRIO"]}</li>
+            <li>Consumo calor: {filtrosMap["CONSUMO CALOR"]}</li>
+            <li>Presión sonora media: {filtrosMap["PRESIÓN SONORA MEDIA"]}</li>
           </ul>
         </div>
         <div className="px-4 pt-2 pb-4 flex items-center justify-between">
             <span className="inline-block bg-gray-200 rounded-full px-2 text-xs font-semibold text-gray-700">
-              EUR {price}
+              EUR {precio_producto}
             </span>
             <a
               className="pl-3 pr-2 py-0 text-sky-100 font-medium bg-sky-500 rounded-full inline-flex items-center text-xs"

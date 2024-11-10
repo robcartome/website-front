@@ -40,22 +40,13 @@ export default function LovedProducts() {
               // Ajuste del grid para asegurar que sea responsivo
               <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 pb-4">
                 {lovedItems.map((product) => {
-                  const {
-                    id,
-                    nombre_producto_corto,
-                    precio_producto,
-                    descripcion,
-                    ruta_imagen_principal,
-                  } = product;
+                  const id = product.id;
                   const likedProduct = lovedItems.some((item) => item.id === id);
 
                   return (
                     <ProductCard
                       key={id}
-                      name={nombre_producto_corto}
-                      price={precio_producto}
-                      description={descripcion}
-                      imgUrl={ruta_imagen_principal}
+                      product={product}
                       addLovedProduct={
                         likedProduct
                           ? () => removeLovedItem(product.id)
