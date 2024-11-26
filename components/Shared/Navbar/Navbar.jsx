@@ -116,7 +116,7 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-          <div className="pt-2">
+          <div className="pt-2 flex align-middle">
               <LovedProducts />
           </div>
         </nav>

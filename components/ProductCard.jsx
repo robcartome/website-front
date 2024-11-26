@@ -43,19 +43,23 @@ export default function ProductCard({
   return (
     <div className="max-w-sm rounded overflow-hidden shadow-lg">
       <div className="flex flex-col justify-between h-full">
-        <img
-          src={srcImg}
-          alt="Aire acondicionado"
-          layout="responsive"
-          quality={100}
-          height={240}
-          width={240}
-          className="w-full"
-        />
+        <a href={linkToDetail}>
+          <img
+            src={srcImg}
+            alt="Aire acondicionado"
+            layout="responsive"
+            quality={100}
+            height={240}
+            width={240}
+            className="w-full"
+          />
+        </a>
         <div className="px-3 py-2">
           <div className="mb-1 justify-between">
             <span className="font-bold text-sm md:text-base">
-              {nombre_producto_corto}
+              <a href={linkToDetail}>
+                {nombre_producto_corto}
+              </a>
             </span>
             <BadgeCheck
               className={`cursor-pointer ${likedProduct ? 'fill-sky-500' : ''}`}
@@ -66,6 +70,7 @@ export default function ProductCard({
               // height={ likedProduct ? 30 : 24}
               // strokeWidth={2}
               onClick={() => addLovedProduct()}
+              title="Agregar a favoritos"
             />
           </div>
           <ul className="list-disc text-gray-700 text-xs pl-4">

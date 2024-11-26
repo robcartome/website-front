@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { CircleX, Filter } from "lucide-react";
+import { CircleX, Filter, ChevronDown } from "lucide-react";
 
 export default function FilterProducts({ clearFilters, setFilters, filterOptions }) {
   const [expandedFilters, setExpandedFilters] = useState({});
@@ -53,7 +53,7 @@ export default function FilterProducts({ clearFilters, setFilters, filterOptions
       <div className="text-center mb-4">
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" className="md:hidden w-full">
+            <Button variant="outline" className="md:hidden w-full text-base font-semibold">
               <Filter className="mr-2 h-4 w-4" /> Filtros
             </Button>
           </SheetTrigger>
@@ -90,7 +90,7 @@ export default function FilterProducts({ clearFilters, setFilters, filterOptions
 
       {/* Filtros en Pantallas Grandes */}
       <div className="mt-2 space-y-2 hidden md:block">
-        <div className="flex items-center">
+        <div className="flex items-center font-semibold">
           <Filter className="mr-2 h-4 w-4" /> Filtros
         </div>
         {Object.keys(selectedFilters).length > 0 && (
@@ -151,16 +151,17 @@ const FilterOption = ({
 
   return (
     <div className="border-b border-gray-400 py-5">
-      <h3 className="-my-3 flow-root">
+      <h3 className="-my-3 flow-root ">
         <button
           type="button"
-          className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
+          className="flex w-full justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500"
           onClick={toggleExpand}
           aria-expanded={isExpanded}
         >
-          <span className="font-medium text-gray-900 capitalize">
+          <span className="font-medium text-gray-900 capitalize text-left">
             {filterName}
           </span>
+          {isExpanded ? <ChevronDown /> : <ChevronDown className="rotate-180" />}
         </button>
       </h3>
       <div className="pt-6">
@@ -171,7 +172,7 @@ const FilterOption = ({
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div className="space-y-4">
+        <div className="space-y-2">
           {visibleValues.map((value) => (
             <div key={value} className="flex items-center">
               <input

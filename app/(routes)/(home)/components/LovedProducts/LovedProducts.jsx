@@ -18,12 +18,13 @@ export default function LovedProducts() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="hover:text-sky-500">
+        <button className="hover:text-sky-500 flex items-center text-xs md:text-sm">
           <BadgeCheck
             className="fill-sky-500 text-white hover:opacity-80"
             width={30}
             height={35}
           />
+          Favoritos
         </button>
       </DialogTrigger>
 
